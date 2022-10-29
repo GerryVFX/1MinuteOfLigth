@@ -10,20 +10,20 @@ public class Music : MonoBehaviour
     public AudioSource hurt;
 
     public bool inDanger, changeTrack;
-    Lamp _lamp;
+    GameManager _gameManager;
 
     void Start()
     {
-        _lamp = FindObjectOfType<Lamp>();
+        _gameManager = FindObjectOfType<GameManager>();
         changeTrack = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_lamp.timeLigth > 0) inDanger = false;
-        if (_lamp.timeLigth < 0) inDanger = true;
-        if(!inDanger) ambienMusic.volume = _lamp.timeLigth / 100;
+        if (_gameManager.timeLigth > 0) inDanger = false;
+        if (_gameManager.timeLigth < 0) inDanger = true;
+        if(!inDanger) ambienMusic.volume = _gameManager.timeLigth / 100;
 
 
         if (!inDanger && !changeTrack)

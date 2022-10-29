@@ -5,27 +5,37 @@ using UnityEngine;
 public class PlayerInteraction : MonoBehaviour
 {
     GameManager _gameManager;
-    Lamp _lamp;
 
     void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
-        _lamp = FindObjectOfType<Lamp>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Pilar") && _gameManager.haveLamp == false)
+        if(other.CompareTag("SafeZone"))
         {
+            if(_gameManager.haveLamp == false)
             _gameManager.inDanger = false;
+        }
+    }
+
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("SafeZone"))
+        {
+            if (_gameManager.timeLigth > 0)
+                _gameManager.inDanger = false;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Pilar") && _gameManager.haveLamp == false)
+        if (other.CompareTag("SafeZone"))
         {
-            _gameManager.inDanger = false;
+            if (_gameManager.haveLamp == false || _gameManager.timeLigth < 60) 
+            _gameManager.inDanger = true;
         }
     }
 }

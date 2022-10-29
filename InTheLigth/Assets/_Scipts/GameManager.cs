@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public bool haveLamp;
     public bool inDanger;
+    public float timeLigth = 60;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +18,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (timeLigth <= 0) inDanger=true;
     }
 }

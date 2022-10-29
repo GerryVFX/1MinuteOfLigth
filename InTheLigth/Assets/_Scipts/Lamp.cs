@@ -9,8 +9,6 @@ public class Lamp : MonoBehaviour
     [SerializeField] GameObject pilar;
     [SerializeField] Light lifeLigth;
 
-    public float timeLigth = 60f;
-
     
     public bool onPilar, canTake, canPut;
     
@@ -23,13 +21,13 @@ public class Lamp : MonoBehaviour
 
     private void Update()
     {
-        lifeLigth.range = timeLigth / 10;
-        lifeLigth.intensity = timeLigth / 10;
+        lifeLigth.range = _gameManager.timeLigth / 10;
+        lifeLigth.intensity = _gameManager.timeLigth / 10;
 
-        if (timeLigth > 60) timeLigth = 60;
-        if (timeLigth < 0) timeLigth = 0;
+        if (_gameManager.timeLigth > 60) _gameManager.timeLigth = 60;
+        if (_gameManager.timeLigth < 0) _gameManager.timeLigth = 0;
 
-        if (!onPilar && timeLigth > 0) timeLigth -= Time.deltaTime;
+        if (!onPilar && _gameManager.timeLigth > 0) _gameManager.timeLigth -= Time.deltaTime;
 
         PickUpLigth();
         ChargeLigth();
@@ -67,9 +65,9 @@ public class Lamp : MonoBehaviour
     {
         if (onPilar)
         {
-            if(timeLigth < 60)
+            if(_gameManager.timeLigth < 60)
             {
-                timeLigth += Time.deltaTime * 4;
+                _gameManager.timeLigth += Time.deltaTime * 4;
             }
         }
     }
