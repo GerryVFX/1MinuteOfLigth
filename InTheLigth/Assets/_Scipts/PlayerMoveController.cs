@@ -14,6 +14,7 @@ public class PlayerMoveController : MonoBehaviour
     float moveH;
     float moveV;
     public bool isMoving;
+
     
     void Start()
     {

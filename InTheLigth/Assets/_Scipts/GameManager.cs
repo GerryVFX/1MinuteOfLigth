@@ -6,16 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public bool haveLamp;
-
-    //private void Awake()
-    //{
-    //    if (instance != null)
-    //    {
-    //        instance = this;
-    //        DontDestroyOnLoad(gameObject);
-    //    }
-    //    else Destroy(gameObject);
-    //}
+    public bool inDanger;
 
     // Start is called before the first frame update
     void Start()
