@@ -9,24 +9,29 @@ public class PlayerInteraction : MonoBehaviour
     void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
+        if (InfoPartida.saveExist) Load();
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("SafeZone"))
         {
-            if(_gameManager.haveLamp == false)
-            _gameManager.inDanger = false;
+            if(_gameManager.haveLamp == false || _gameManager.timeLigth > 0)
+            {
+                _gameManager.safe = true;
+            }
         }
     }
-
 
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("SafeZone"))
         {
             if (_gameManager.timeLigth > 0)
-                _gameManager.inDanger = false;
+            {
+                _gameManager.safe = true;
+            }
         }
     }
 
@@ -34,8 +39,18 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (other.CompareTag("SafeZone"))
         {
-            if (_gameManager.haveLamp == false || _gameManager.timeLigth < 60) 
-            _gameManager.inDanger = true;
+            _gameManager.safe = false;
         }
+    }
+
+    public void Save()
+    {
+        InfoPartida.saveExist = true;
+        InfoPartida.player.position = transform.position;
+    }
+
+    public void Load()
+    {
+        transform.position = InfoPartida.player.position;
     }
 }

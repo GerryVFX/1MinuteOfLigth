@@ -5,14 +5,37 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    [SerializeField] GameObject player;
+    [SerializeField] GameObject lamp;
+
+    [Header("Estados")]
     public bool haveLamp;
     public bool inDanger;
+    public bool alert;
+    public bool safe;
+
+    [Header("Información de juego")]
     public float timeLigth = 60;
 
-    // Start is called before the first frame update
+    public Vector3 currentLampPosition;
+
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
+    }
+
     void Start()
     {
-        
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
@@ -20,4 +43,8 @@ public class GameManager : MonoBehaviour
     {
         if (timeLigth <= 0) inDanger=true;
     }
+
+    
+
+    
 }

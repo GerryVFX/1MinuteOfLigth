@@ -10,12 +10,16 @@ public class Lamp : MonoBehaviour
     [SerializeField] Light lifeLigth;
 
     
-    public bool onPilar, canTake, canPut;
     
+    public bool onPilar, canTake, canPut;
+
+    public Vector3 savePosLamp;
+    public Vector3 savePosPlayer;
 
     private void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
+        if (InfoPartida.saveExist) Load();
     }
 
 
@@ -28,6 +32,8 @@ public class Lamp : MonoBehaviour
         if (_gameManager.timeLigth < 0) _gameManager.timeLigth = 0;
 
         if (!onPilar && _gameManager.timeLigth > 0) _gameManager.timeLigth -= Time.deltaTime;
+
+
 
         PickUpLigth();
         ChargeLigth();
@@ -82,6 +88,9 @@ public class Lamp : MonoBehaviour
                 transform.position = new Vector3(pilar.transform.position.x, 1.2f, pilar.transform.position.z);
                 transform.rotation = pilar.transform.rotation;
                 _gameManager.haveLamp = false;
+                player.GetComponent<PlayerInteraction>().Save();
+                Save();
+                savePosLamp = new Vector3(pilar.transform.position.x, 1.2f, pilar.transform.position.z);
             }
         }
         else if(onPilar && canTake)
@@ -94,5 +103,15 @@ public class Lamp : MonoBehaviour
                 _gameManager.haveLamp = true;
             }
         }
+    }
+
+    public void Save()
+    {
+        InfoPartida.lamp.position = transform.position;
+    }
+
+    public void Load()
+    {
+        transform.position = InfoPartida.lamp.position;
     }
 }

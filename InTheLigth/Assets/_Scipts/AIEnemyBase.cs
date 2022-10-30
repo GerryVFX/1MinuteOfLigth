@@ -9,83 +9,79 @@ public class AIEnemyBase : MonoBehaviour
 
     [SerializeField] Transform target;
     [SerializeField] Vector3 myPos;
-
+    [SerializeField] float distance;
     NavMeshAgent navMesh;
 
-    [SerializeField] float distance;
-    [SerializeField] float rangeDistance;
-    [SerializeField] float minDistance= 3.5f;
-
-    public bool radyForAttack;
-
-    private void Awake()
-    {
-        myPos = transform.position;
-    }
+    public float maxDistance;
+    public float minDistance;
+    public float attackDistance;
 
     void Start()
     {
+        myPos = transform.position;
         navMesh = GetComponent<NavMeshAgent>();
         _gameManager = FindObjectOfType<GameManager>();
     }
 
     void Update()
     {
-        RangeForDistance();
-
         distance = Vector3.Distance(transform.position, target.position);
 
-        if (_gameManager.haveLamp == false || _gameManager.timeLigth <= 0)
+        if (_gameManager.safe == false && _gameManager.haveLamp) Alert();
+        if (_gameManager.safe == false)
         {
-            radyForAttack = true;
+            if (_gameManager.haveLamp == false || _gameManager.timeLigth <= 0) Attack();
         }
-        else radyForAttack = false;
+        if (_gameManager.safe) Back();
+    }
 
+    void Alert()
+    {
+        _gameManager.alert = true;
 
-        if (_gameManager.timeLigth > 0)
+        if (distance >  maxDistance)
         {
-            if (distance > rangeDistance && _gameManager.inDanger)
-            {
-                navMesh.isStopped = false;
-                navMesh.speed = 2.5f;
-                navMesh.SetDestination(target.position);
-            }
-            else
-            {
-                navMesh.isStopped = true;
-            }
+            navMesh.isStopped = false;
+            navMesh.speed = 3.5f;
+            navMesh.SetDestination(target.position);
+        }
+        else
+        {
+            navMesh.isStopped = true;
         }
 
-        if(_gameManager.inDanger == false)
+        if (distance < minDistance)
         {
             navMesh.isStopped = false;
             navMesh.speed = 10;
             navMesh.SetDestination(myPos);
         }
+    }
 
-        if(_gameManager.haveLamp && _gameManager.timeLigth > 0)
+    void Attack()
+    {
+        _gameManager.inDanger = true;
+        _gameManager.alert = false;
+
+        if (distance > attackDistance)
         {
-            if (distance < minDistance)
-            {
-                navMesh.isStopped = false;
-                navMesh.speed = 10;
-                navMesh.SetDestination(myPos);
-            }
+            navMesh.isStopped = false;
+            navMesh.speed = 5;
+            navMesh.SetDestination(target.position);
+        }
+        else
+        {
+            navMesh.isStopped = true;
         }
     }
 
-    void RangeForDistance()
+    void Back()
     {
-        if (_gameManager.timeLigth <= 60) rangeDistance = 8;
+        _gameManager.alert = false;
+        _gameManager.inDanger = false;
 
-        if (_gameManager.timeLigth <= 40) rangeDistance = 6;
-
-        if (_gameManager.timeLigth <= 20) rangeDistance = 4;
-
-        if (radyForAttack)
-        {
-            navMesh.speed = 7;
-            rangeDistance = 2;
-        }
+        navMesh.isStopped = false;
+        navMesh.speed = 10;
+        navMesh.SetDestination(myPos);
     }
 }

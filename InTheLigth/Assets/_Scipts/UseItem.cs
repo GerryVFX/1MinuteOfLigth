@@ -5,40 +5,59 @@ using TMPro;
 
 public class UseItem : MonoBehaviour
 {
+    bool canPut;
+    bool canReset;
+
+    [SerializeField] Transform seedSpawnPoint;
     [SerializeField] GameObject ligthSeed;
     [SerializeField] GameObject poolSeed;
     public int ligthSeedPool = 50;
-    public List<GameObject> seedsCreated = new List<GameObject>();
-    [SerializeField] TMP_Text seedCount;
+    //[SerializeField] TMP_Text seedCount;
 
-    
     void Update()
     {
-        seedCount.text = ligthSeedPool.ToString();
+        //seedCount.text = ligthSeedPool.ToString();
 
-        if (Input.GetKeyDown(KeyCode.Joystick1Button1) && ligthSeedPool > 0)
-        {
-            Vector3 ofsetCreate = new Vector3(transform.position.x, transform.position.y-1, transform.position.z - 1f);
-            Instantiate(ligthSeed, ofsetCreate, Quaternion.identity, parent:poolSeed.transform);
-            
-            ligthSeedPool -= 1;
-        }
-
-        
+        if (canPut) PutSeed();
+        if (canReset) ResetSeed(); 
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("SafeZone"))
         {
-            if (Input.GetKey(KeyCode.Joystick1Button0) && ligthSeedPool < 100)
+            canReset = true;
+            canPut = false;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("SafeZone"))
+        {
+            canPut = true;
+            canReset = false;
+        }
+    }
+
+    void PutSeed()
+    {
+        if (Input.GetButtonDown("Fire2") && ligthSeedPool > 0)
+        {
+            Instantiate(ligthSeed, seedSpawnPoint.position, Quaternion.identity, parent: poolSeed.transform);
+
+            ligthSeedPool -= 1;
+        }
+    }
+
+    void ResetSeed()
+    {
+        if (Input.GetButtonDown("Jump") && ligthSeedPool < 100)
+        {
+            for (int i = 0; i < poolSeed.transform.childCount; i++)
             {
-                for(int i=0; i < poolSeed.transform.childCount; i++)
-                {
-                    ligthSeedPool += 1;
-                    Destroy(poolSeed.transform.GetChild(i).gameObject);
-                }
-                
+                ligthSeedPool += 1;
+                Destroy(poolSeed.transform.GetChild(i).gameObject);
             }
         }
     }
