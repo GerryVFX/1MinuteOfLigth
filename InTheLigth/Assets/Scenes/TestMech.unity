@@ -2608,6 +2608,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b07354104b60554a9a039395ddb8b11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canSave: 0
 --- !u!114 &1056763264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3031,14 +3032,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa72671d6c2bf00448f001134b830d47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1056763255}
-  lamp: {fileID: 0}
   haveLamp: 0
   inDanger: 0
   alert: 0
   safe: 0
+  canSave: 0
   timeLigth: 60
-  currentLampPosition: {x: 0, y: 0, z: 0}
+  playerGO: {fileID: 0}
+  lampGO: {fileID: 0}
+  currentPlayerposition: {x: 0, y: 0, z: 0}
 --- !u!4 &1688340150
 Transform:
   m_ObjectHideFlags: 0
@@ -3508,7 +3510,7 @@ GameObject:
   - component: {fileID: 2035463015}
   m_Layer: 0
   m_Name: Lamp
-  m_TagString: Untagged
+  m_TagString: Lamp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3604,6 +3606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08a7a5c8e9363b64c89b391659dcdf43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPoint: {fileID: 180491736}
   player: {fileID: 180491736}
   pilar: {fileID: 320560841}
   lifeLigth: {fileID: 465371288}

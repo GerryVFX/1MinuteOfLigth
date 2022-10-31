@@ -5,6 +5,7 @@ using UnityEngine;
 public class Lamp : MonoBehaviour
 {
     GameManager _gameManager;
+    [SerializeField] GameObject playerPoint;
     [SerializeField] GameObject player;
     [SerializeField] GameObject pilar;
     [SerializeField] Light lifeLigth;
@@ -19,6 +20,8 @@ public class Lamp : MonoBehaviour
     private void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        _gameManager.haveLamp = false;
         if (InfoPartida.saveExist) Load();
     }
 
@@ -87,31 +90,40 @@ public class Lamp : MonoBehaviour
                 transform.SetParent(pilar.transform);
                 transform.position = new Vector3(pilar.transform.position.x, 1.2f, pilar.transform.position.z);
                 transform.rotation = pilar.transform.rotation;
+
+                InfoPartida.lamp.lampPosition = transform.position;
+                InfoPartida.saveExist = true;
                 _gameManager.haveLamp = false;
-                player.GetComponent<PlayerInteraction>().Save();
-                Save();
-                savePosLamp = new Vector3(pilar.transform.position.x, 1.2f, pilar.transform.position.z);
             }
         }
         else if(onPilar && canTake)
         {
             if (Input.GetButtonDown("Fire1"))
             {
-                transform.SetParent(player.transform);
-                transform.position = player.transform.position;
-                transform.rotation = player.transform.rotation;
+                transform.SetParent(playerPoint.transform);
+                transform.position = playerPoint.transform.position;
+                transform.rotation = playerPoint.transform.rotation;
                 _gameManager.haveLamp = true;
             }
         }
     }
 
-    public void Save()
-    {
-        InfoPartida.lamp.position = transform.position;
-    }
+    //public void Save()
+    //{
+    //    InfoPartida.lamp.position = transform.position;
+    //}
 
     public void Load()
     {
-        transform.position = InfoPartida.lamp.position;
+        transform.position = InfoPartida.lamp.lampPosition;
+        _gameManager.haveLamp = false;
+        _gameManager.timeLigth = 60;
     }
+
+    //IEnumerator SavePref()
+    //{
+    //    InfoPartida.player.position = player.transform.position;
+    //    Debug.Log(InfoPartida.player.position);
+    //    yield return
+    //}
 }
