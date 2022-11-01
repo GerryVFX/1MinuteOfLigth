@@ -19,10 +19,10 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Update()
     {
-        if (canSave)
-        {
-            if (Input.GetButtonDown("Jump")) Save();
-        }
+        //if (canSave)
+        //{
+        //    if (Input.GetButtonDown("Jump")) Save();
+        //}
 
     }
 
@@ -30,10 +30,12 @@ public class PlayerInteraction : MonoBehaviour
     {
         if(other.CompareTag("SafeZone"))
         {
-            if(_gameManager.haveLamp == false || _gameManager.timeLigth > 0)
+            _gameManager.SavePlayer();
+            _gameManager.SaveLamp();
+            if (_gameManager.haveLamp == false || _gameManager.timeLigth > 0)
             {
                 _gameManager.safe = true;
-                _gameManager.canSave = true;
+                //canSave = true;
             }
         }
     }
@@ -51,11 +53,12 @@ public class PlayerInteraction : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("SafeZone"))
+        if (other.CompareTag("SafeZone") /*&& canSave*/)
         {
+            
             _gameManager.safe = false;
-            _gameManager.canSave = false;
-            Save();
+            //_gameManager.canSave = false;
+            
         }
     }
 
@@ -64,7 +67,6 @@ public class PlayerInteraction : MonoBehaviour
         InfoPartida.saveExist = true;
         InfoPartida.player.playerPosition = transform.position;
         Debug.Log("saveOK");
-
     }
 
     public void Load()

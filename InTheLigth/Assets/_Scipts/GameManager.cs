@@ -35,8 +35,6 @@ public class GameManager : MonoBehaviour
         
     }
 
-  
-
     // Update is called once per frame
     void Update()
     {
@@ -50,12 +48,22 @@ public class GameManager : MonoBehaviour
 
     }
 
-    //public void Save()
-    //{
-    //    InfoPartida.saveExist = true;
-    //    InfoPartida.player.playerPosition = currentPlayerposition;
-    //    InfoPartida.player.lampPosition = lampGO.transform.position;
-    //}
+    private void LateUpdate()
+    {
+        if (playerGO == null) playerGO = GameObject.FindGameObjectWithTag("Player");
+        if (lampGO == null) lampGO = GameObject.FindGameObjectWithTag("Lamp");
+    }
 
-    
+    public void SavePlayer()
+    {
+        InfoPartida.saveExist = true;
+        InfoPartida.player.playerPosition = playerGO.transform.position;
+    }
+
+    public void SaveLamp()
+    {
+        InfoPartida.saveExist = true;
+        InfoPartida.lamp.lampPosition = lampGO.transform.position;
+    }
+
 }

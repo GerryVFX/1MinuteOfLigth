@@ -110,7 +110,7 @@ public class Lamp : MonoBehaviour
 
     //public void Save()
     //{
-    //    InfoPartida.lamp.position = transform.position;
+    //    InfoPartida.lamp.lampPosition = transform.position;
     //}
 
     public void Load()
