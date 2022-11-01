@@ -8,7 +8,7 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        transform.position = new Vector3(targetPlayer.position.x, targetPlayer.position.y + 8, targetPlayer.position.z-3);
+        transform.position = new Vector3(targetPlayer.position.x, targetPlayer.position.y + 1.5f, targetPlayer.position.z-1);
         transform.LookAt(targetPlayer);
     }
 }
